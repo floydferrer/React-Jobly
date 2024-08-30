@@ -12,8 +12,7 @@ import {
 import './Companies.css'
 
 function Companies() {
-  const token = window.localStorage.token;
-  if(token === '' || token === undefined) return <Navigate to="/login" />
+  if(window.localStorage.token === '' || window.localStorage.token === undefined) return <Navigate to="/login" />
   
   const navigate = useNavigate();
 

@@ -15,9 +15,10 @@ import {
 import './Jobs.css'
 
 function Jobs({ applyJob }) {
-  const JSONCurrUser = JSON.parse(window.localStorage.currUser)
+  
   const token = window.localStorage.token
   if(token === '' || token === undefined) return <Navigate to="/login" />
+  const JSONCurrUser = JSON.parse(window.localStorage.currUser)
 
   const [jobs, setJobs] = useItems('jobs');
   const [user, setUser, userIsLoading] = useItems('users', {JSONCurrUser, token});

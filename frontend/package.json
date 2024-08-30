@@ -21,8 +21,8 @@
     "reactstrap": "9.2.2"
   },
   "scripts": {
-    "start-fe": "react-scripts --openssl-legacy-provider start",
-    "start-be": "nodemon backend/server.js",
+    "start-fe": "react-scripts --openssl-legacy-provider start /frontend",
+    "start-be": "nodemon ../backend/server.js",
     "dev": "npm run start-be & npm run start-fe",
     "build": "react-scripts build",
     "test": "react-scripts test",

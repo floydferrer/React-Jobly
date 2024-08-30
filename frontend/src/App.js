@@ -1,12 +1,5 @@
-/**
- * Need to complete:
- * Clean up styling
- * Clean up code
- * Render app
- */
-
 import React from 'react';
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import PageNav from './PageNav';
 import Homepage from './Homepage';
 import Companies from './Companies';
