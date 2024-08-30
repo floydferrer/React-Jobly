@@ -6,7 +6,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const Company = require("../models/company");
 
 const companyNewSchema = require("../schemas/companyNew.json");
@@ -52,6 +52,8 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
+  console.log(req)
+  console.log('hererere')
   const q = req.query;
   // arrive as strings from querystring, but we want as ints
   if (q.minEmployees !== undefined) q.minEmployees = +q.minEmployees;
@@ -63,7 +65,6 @@ router.get("/", async function (req, res, next) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
-
     const companies = await Company.findAll(q);
     return res.json({ companies });
   } catch (err) {

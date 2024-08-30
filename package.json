@@ -4,20 +4,29 @@
   "private": true,
   "dependencies": {
     "axios": "1.7.4",
+    "bcrypt": "5.1.1",
     "bootstrap": "5.3.3",
+    "colors": "1.4.0",
+    "cors": "2.8.5",
+    "flash": "1.1.0",
+    "jsonschema": "1.4.1",
+    "jsonwebtoken": "9.0.2",
+    "morgan": "1.10.0",
+    "pg": "8.12.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
+    "react-flash-message": "1.0.8",
     "react-router-dom": "6.26.1",
     "react-scripts": "2.0.5",
     "reactstrap": "9.2.2"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start \"npm run start-fe\" \"npm run start-be\"",
+    "start-fe": "react-scripts --openssl-legacy-provider start",
+    "start-be": "nodemon backend/server.js",
+    "dev": "npm run start-be & npm run start-fe",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-fe": "react-scripts start",
-    "start-be": "json-server --watch db.json --port 3001 --middlewares ./src/headers.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

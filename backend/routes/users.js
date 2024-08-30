@@ -71,7 +71,10 @@ router.get("/", ensureAdmin, async function (req, res, next) {
 
 router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
+    console.log('user route')
     const user = await User.get(req.params.username);
+    console.log('user:')
+    console.log(user)
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -91,13 +94,19 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
 
 router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, userUpdateSchema);
+    const validator = jsonschema.validate(req.body.updateData, userUpdateSchema);
+    console.log('overhere')
+    console.log(req.params.username)
+    console.log(req.body)
     if (!validator.valid) {
+      console.log('no bueno')
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
-
-    const user = await User.update(req.params.username, req.body);
+    console.log('before update')
+    console.log(req.params.username)
+    console.log(req.body.updateData)
+    const user = await User.update(req.params.username, req.body.updateData);
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -130,6 +139,8 @@ router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, 
 router.post("/:username/jobs/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     const jobId = +req.params.id;
+    console.log('jobId:')
+    console.log(jobId)
     await User.applyToJob(req.params.username, jobId);
     return res.json({ applied: jobId });
   } catch (err) {

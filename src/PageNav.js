@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import {
     Navbar,
     NavbarBrand,
@@ -7,32 +8,38 @@ import {
     NavLink
   } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './PageNav.css'
 
-const PageNav = (args) => {
-  
+const PageNav = ({token}) => {
+  const location = useLocation()
+  let JSONCurrUser;
+  if (window.localStorage.currUser !== '' && window.localStorage.currUser !== undefined){
+    JSONCurrUser = JSON.parse(window.localStorage.currUser)
+  }
+
   return (
     <div>
-      <Navbar {...args}>
+      <Navbar className="bg-white">
         <NavbarBrand href="/">Jobly</NavbarBrand>
           <Nav className="ml-auto flex-row" navbar>
             <NavItem className="me-5">
-              <NavLink href="/components/">Companies</NavLink>
+              <NavLink className={`nav-link ${location.pathname === "/companies" ? "active" : ""}`} href="/companies">Companies</NavLink>
             </NavItem>
             <NavItem className="me-5">
-              <NavLink href="https://github.com/reactstrap/reactstrap">
+              <NavLink className={`nav-link ${location.pathname === "/jobs" ? "active" : ""}`} href="/jobs">
                 Jobs
               </NavLink>
             </NavItem>
             <NavItem className="me-5">
-              <NavLink href="https://github.com/reactstrap/reactstrap">
+              <NavLink className={`nav-link ${location.pathname === "/profile" ? "active" : ""}`} href="/profile">
                 Profile
               </NavLink>
             </NavItem>
-            <NavItem className="me-2">
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                Logout
+            {(token !== '' && window.localStorage.currUser !== '') && <NavItem className="me-2">
+              <NavLink href="/logout">
+                Log Out {JSONCurrUser.firstName}
               </NavLink>
-            </NavItem>
+            </NavItem>}
           </Nav>
       </Navbar>
     </div>

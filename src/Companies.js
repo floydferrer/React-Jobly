@@ -1,35 +1,50 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import JoblyApi from "./api/api";
+import SearchForm from "./SearchForm";
+import useItems from "./hooks/useItems";
 import {
   Card,
   CardBody,
   CardTitle,
-  CardText,
-  ListGroup,
-  ListGroupItem
+  CardText
 } from "reactstrap";
+import './Companies.css'
 
-function Companies({ companies }) {
+function Companies() {
+  const token = window.localStorage.token;
+  if(token === '' || token === undefined) return <Navigate to="/login" />
+  
+  const navigate = useNavigate();
+
+  const [companies, setCompanies] = useItems('companies');
+
+  const handleClick = (handle) => {
+    navigate(`/companies/${handle}`)
+  }
+
+  const searchCompanies = async (name) => {
+    setCompanies(await JoblyApi.getItems('companies', name))
+  }
+
   return (
-    <section className="col-md-4">
-      <Card>
-        <CardBody>
-          <CardTitle className="font-weight-bold text-center">
-            Companie List
-          </CardTitle>
-          <CardText>
-            Here is the full list of Companies:
-          </CardText>
-          <ListGroup>
-            {companies.map(company => (
-              <Link to={`/companies/${company.id}`} key={company.id}>
-                <ListGroupItem>{company.name}</ListGroupItem>
-              </Link>
-            ))}
-          </ListGroup>
-        </CardBody>
-      </Card>
-    </section>
+    <div>
+      <section className="col-md-8 mt-4 container-fluid">
+          <SearchForm searchFor={searchCompanies} />
+          {companies.map(company => (
+          <Card className='card mt-2' onClick={() => handleClick(company.handle)}>
+              <CardBody>
+                  <CardTitle className="fw-bold">
+                      {company.name}
+                  </CardTitle>
+                  <CardText>
+                      {company.description}
+                  </CardText>
+              </CardBody>
+          </Card>
+          ))}
+      </section>
+    </div>
   );
 }
 
